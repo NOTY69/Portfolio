@@ -1,0 +1,11 @@
+{
+  "name": "portfolio-3d",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "parcel main.html",
+    "build": "parcel build main.html"
+  },
+  "devDependencies": {
+    "parcel": "^2.15.4"
+  }
+}
