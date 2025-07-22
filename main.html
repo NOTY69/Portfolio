@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portfolio</title>
+  <style>
+    /* Reset and base */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background-color: #0a1e3f;
+      color: #fff;
+      line-height: 1.6;
+      overflow-x: hidden;
+      /* Subtle grid lines overlay */
+      background-image:
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    ul {
+      list-style: none;
+    }
+    button {
+      cursor: pointer;
+      border: none;
+      outline: none;
+    }
+
+    /* Container */
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Floating glassmorphism navbar */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      right: 20px;
+      z-index: 1000;
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    /* Navbar links */
+    nav ul {
+      display: flex;
+      gap: 24px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #ffffff;
+    }
+
+    nav ul li {
+      position: relative;
+    }
+
+    nav ul li:hover::after,
+    nav ul li.active::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: #2a7de1;
+      border-radius: 2px;
+    }
+    .btn-talk {
+      background: linear-gradient(90deg, #2a7de1, #1a5edb);
+      padding: 10px 20px;
+      border-radius: 30px;
+      color: white;
+      font-weight: 600;
+      transition: background 0.3s ease;
+      font-size: 0.9rem;
+    }
+    .btn-talk:hover {
+      background: linear-gradient(90deg, #1a5edb, #2a7de1);
+    }
+
+    /* Hero Section */
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 60px 0 40px;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .hero-text {
+      flex: 1 1 400px;
+      max-width: 600px;
+    }
+    .hero-text h1 {
+      font-size: 3rem;
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 10px;
+    }
+    .hero-text h1 .highlight {
+      color: #2a7de1;
+    }
+    .hero-text p {
+      font-size: 1rem;
+      margin-bottom: 25px;
+      color: #c0c7d9;
+      max-width: 480px;
+    }
+    .btn-primary {
+      background: linear-gradient(90deg, #2a7de1, #1a5edb);
+      padding: 12px 28px;
+      border-radius: 30px;
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.3s ease;
+    }
+    .btn-primary:hover {
+      background: linear-gradient(90deg, #1a5edb, #2a7de1);
+    }
+    .btn-primary svg {
+      width: 16px;
+      height: 16px;
+      fill: white;
+    }
+    .social-icons {
+      margin-top: 20px;
+      display: flex;
+      gap: 15px;
+    }
+    .social-icons a {
+      width: 36px;
+      height: 36px;
+      background-color: #1a2a4a;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s ease;
+    }
+    .social-icons a:hover {
+      background-color: #2a7de1;
+    }
+    .social-icons svg {
+      width: 18px;
+      height: 18px;
+      fill: white;
+    }
+    .hero-image {
+      flex: 1 1 400px;
+      max-width: 450px;
+      position: relative;
+    }
+    .hero-image img {
+      width: 100%;
+      border-radius: 12px;
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 0 20px rgba(42,125,225,0.5);
+    }
+    /* Decorative circles */
+    .circle {
+      position: absolute;
+      border: 2px solid #2a7de1;
+      border-radius: 50%;
+      opacity: 0.3;
+      z-index: 1;
+    }
+    .circle.small {
+      width: 80px;
+      height: 80px;
+      top: 20%;
+      left: -40px;
+    }
+    .circle.medium {
+      width: 140px;
+      height: 140px;
+      top: 50%;
+      left: -70px;
+    }
+    .circle.large {
+      width: 200px;
+      height: 200px;
+      top: 30%;
+      right: -100px;
+    }
+
+    /* Logos Section */
+    .logos {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+      padding: 30px 0;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      background-color: #0a1e3f;
+    }
+    .logos img {
+      height: 40px;
+      filter: brightness(0) invert(1);
+      transition: filter 0.3s ease;
+    }
+    .logos img:hover {
+      filter: brightness(0.7) invert(1);
+    }
+
+    /* About Section */
+    .about {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 40px;
+      padding: 60px 0;
+      flex-wrap: wrap;
+    }
+    .about-image {
+      flex: 1 1 350px;
+      max-width: 350px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(42,125,225,0.5);
+    }
+    .about-image img {
+      width: 100%;
+      display: block;
+    }
+    .about-text {
+      flex: 1 1 450px;
+      max-width: 600px;
+      color: #c0c7d9;
+    }
+    .about-text small {
+      display: inline-block;
+      background-color: #2a7de1;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      letter-spacing: 1.5px;
+      margin-bottom: 15px;
+      font-weight: 700;
+      color: #2a7de1;
+    }
+    .about-text h2 {
+      font-size: 2rem;
+      font-weight: 900;
+      margin-bottom: 15px;
+      color: white;
+    }
+    .about-text h2 .highlight {
+      color: #2a7de1;
+    }
+    .about-text p {
+      font-size: 1rem;
+      margin-bottom: 30px;
+      line-height: 1.5;
+    }
+
+    /* Recent Projects Section */
+    .projects-section {
+      padding: 60px 0;
+      background-color: #0a1e3f;
+    }
+    .projects-section .section-header {
+      margin-bottom: 40px;
+    }
+    .projects-section small {
+      display: inline-block;
+      background-color: #2a7de1;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      letter-spacing: 1.5px;
+      margin-bottom: 15px;
+      font-weight: 700;
+      color: #2a7de1;
+    }
+    .projects-section h2 {
+      font-size: 2rem;
+      font-weight: 900;
+      color: white;
+    }
+    .projects-carousel {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding-bottom: 10px;
+    }
+    .project-card {
+      background-color: #1a2a4a;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(42,125,225,0.5);
+      min-width: 280px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .project-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+    }
+    .project-card-content {
+      padding: 15px 20px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .project-card-content h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: white;
+    }
+    .project-card-content p {
+      font-size: 0.9rem;
+      color: #c0c7d9;
+      flex-grow: 1;
+    }
+    .project-card-content .btn-arrow {
+      align-self: flex-end;
+      background-color: #2a7de1;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: background-color 0.3s ease;
+      margin-top: 10px;
+    }
+    .project-card-content .btn-arrow:hover {
+      background-color: #1a5edb;
+    }
+    .project-card-content .btn-arrow svg {
+      width: 14px;
+      height: 14px;
+      fill: white;
+    }
+
+    /* Services Section */
+    .services-section {
+      padding: 60px 0;
+      background-color: #0a1e3f;
+    }
+    .services-section .section-header {
+      margin-bottom: 40px;
+    }
+    .services-section small {
+      display: inline-block;
+      background-color: #2a7de1;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      letter-spacing: 1.5px;
+      margin-bottom: 15px;
+      font-weight: 700;
+      color: #2a7de1;
+    }
+    .services-section h2 {
+      font-size: 2rem;
+      font-weight: 900;
+      color: white;
+    }
+    .services-cards {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .service-card {
+      background-color: #1a2a4a;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(42,125,225,0.5);
+      width: 280px;
+      padding: 20px;
+      color: #c0c7d9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 0 25px rgba(42,125,225,0.8);
+    }
+    .service-card img {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 15px;
+      filter: brightness(0) invert(1);
+    }
+    .service-card h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: white;
+    }
+    .service-card p {
+      font-size: 0.9rem;
+      line-height: 1.3;
+    }
+
+    /* Scrollbar for projects carousel */
+    .projects-carousel::-webkit-scrollbar {
+      height: 8px;
+    }
+    .projects-carousel::-webkit-scrollbar-track {
+      background: #0a1e3f;
+    }
+    .projects-carousel::-webkit-scrollbar-thumb {
+      background: #2a7de1;
+      border-radius: 4px;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .hero {
+        flex-direction: column-reverse;
+        text-align: center;
+      }
+      .hero-text, .hero-image {
+        max-width: 100%;
+        flex: 1 1 100%;
+      }
+      .about {
+        flex-direction: column;
+        text-align: center;
+      }
+      .about-text {
+        max-width: 100%;
+      }
+      nav ul {
+        gap: 15px;
+      }
+      .services-cards {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+  </head>
+  <body>
+    <header class="container">
+      <nav>
+        <ul>
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="#about">About Me</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#contact-footer">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+      <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const projectCards = document.querySelectorAll('.project-card');
+        projectCards.forEach(card => {
+          card.addEventListener('click', function() {
+            const projectTitle = card.querySelector('h3').textContent.trim();
+            if (projectTitle === 'Bike Tribe') {
+              window.location.href = 'biketribeblog.html';
+            }
+            if (projectTitle === 'Vlogs') {
+              window.open('https://youtube.com/@rtvlogs14?si=QJyEDtZ-dMK-QyE-', '_blank');
+            }
+            if (projectTitle === 'E-Sport Athlete') {
+              window.open('https://www.instagram.com/noty_official_07?igsh=bGo1NGE3NnE4NGRj', '_blank');
+            }
+            if (projectTitle === 'Art') {
+              window.open('https://www.instagram.com/rohibeingartist?igsh=MXR5aTYxMXBhNThueA==', '_blank');
+            }
+          });
+        });
+      });
+    </script>
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+  fetch('http://localhost:5000/api/projects')
+    .then(res => res.json())
+    .then(data => {
+      const container = document.querySelector('.projects-carousel');
+      container.innerHTML = '';
+      data.forEach(proj => {
+        const card = document.createElement('div');
+        card.className = 'project-card';
+        card.innerHTML = `
+          <img src="image-placeholder.png" alt="${proj.title}" />
+          <div class="project-card-content">
+            <h3>${proj.title}</h3>
+            <p>${proj.description}</p>
+            <button class="btn-arrow" aria-label="View ${proj.title}">
+              ➤
+            </button>
+          </div>`;
+        card.querySelector('.btn-arrow').addEventListener('click', () => {
+          proj.link.startsWith('http')
+            ? window.open(proj.link, '_blank')
+            : window.location.href = proj.link;
+        });
+        container.appendChild(card);
+      });
+    })
+    .catch(console.error);
+});
+</script>
+
+
+  <section class="container hero">
+    <div class="hero-text">
+      <h1>HAY! I'M <span class="highlight">ROHIT THAPA</span><br />I'M A MULTIMEDIA ARTIST AND WEB DEVELOPER</h1>
+<p>Crafting seamless and responsive web experiences with clean, modern code and intuitive design. Passionate about turning creative ideas into interactive digital realities that engage and inspire users</p>
+      <button class="btn-primary" onclick="document.getElementById('contact-footer').scrollIntoView({behavior: 'smooth'}); return false;">
+        GET IN TOUCH
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M12 5L19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+     
+    </div>
+    <div class="hero-image">
+      <img src="me.png" alt="Hero Image" />
+      <div class="circle small"></div>
+      <div class="circle medium"></div>
+      <div class="circle large"></div>
+    </div>
+  </section>
+  
+
+  <section class="logos container" aria-label="Technology logos">
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5 Logo" title="HTML5" />
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3 Logo" title="CSS3" />
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript Logo" title="JavaScript" />
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React Logo" title="React" />
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js Logo" title="Node.js" />
+  </section>
+  
+
+  <section class="container about" aria-label="About me" id="about">
+    <div class="about-image">
+      <img src="me2.jpg" alt="Portrait of Rohit Thapa" />
+    </div>
+    <div class="about-text">
+      
+      <h2>I AM AVAILABLE FOR <span class="highlight">WEB DEVELOPMENT</span> PROJECT</h2>
+      <p>I am here to bring ideas to life with expert web development using HTML, CSS, and JavaScript. Creating beautiful, responsive, and dynamic websites that captivate users and deliver seamless experiences.</p>
+      
+      <button class="btn-primary" onclick="document.getElementById('contact-footer').scrollIntoView({behavior: 'smooth'}); return false;">
+        GET IN TOUCH
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M12 5L19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </section>
+
+  <section class="projects-section container" aria-label="Recent projects" id="projects">
+    <div class="section-header">
+      
+      <h2>RECENT PROJECT</h2>
+    </div>
+    <div class="projects-carousel" tabindex="0" aria-label="Recent projects carousel">
+      <div class="project-card">
+        <img src="image3.png " alt="Intership Project" />
+        <div class="project-card-content">
+          <h3>Fake News detector</h3>
+          <p>Machine Learning</p>
+          <button class="btn-arrow" aria-label="View project">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="project-card">
+        <img src="image4.png " alt="bike tribe" />
+        <div class="project-card-content">
+          <h3>Bike Tribe</h3>
+          <p>Web Design, Booking trip, Community </p>
+          <button class="btn-arrow" aria-label="View project">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="skills-section container" aria-label="Skills & Expertise" id="skills" style="padding: 60px 0;">
+    <div class="section-header" style="text-align:center; margin-bottom:40px;">
+      <h2 style="font-size:2.2rem; font-weight:900; color:white; margin-bottom:8px;">Skills & Expertise</h2>
+      <div style="width:80px; height:4px; background:#2a7de1; margin:0 auto 18px auto; border-radius:2px;"></div>
+      <p style="color:#c0c7d9; font-size:1.1rem;">Technologies and tools I work with to bring ideas to life</p>
+    </div>
+    <div style="display:flex; flex-wrap:wrap; gap:32px; justify-content:center;">
+      <!-- Frontend -->
+      <div style="background:#162447; border-radius:16px; padding:32px 28px; min-width:260px; flex:1 1 260px; max-width:340px;">
+        <div style="font-size:1.3rem; font-weight:700; color:white; margin-bottom:18px; display:flex; align-items:center; gap:8px;">
+          💻 Frontend
+        </div>
+        <div style="margin-bottom:10px; display:flex; justify-content:space-between;"><span>HTML/CSS</span><span>95%</span></div>
+        <div style="background:#23395d; border-radius:6px; height:7px; margin-bottom:12px;"><div style="width:95%;height:100%;background:#2a7de1;border-radius:6px;"></div></div>
+        <div style="margin-bottom:10px; display:flex; justify-content:space-between;"><span>JavaScript</span><span>95%</span></div>
+        <div style="background:#23395d; border-radius:6px; height:7px; margin-bottom:12px;"><div style="width:95%;height:100%;background:#2a7de1;border-radius:6px;"></div></div>
+        <div style="margin-bottom:10px; display:flex; justify-content:space-between;"><span>React.js</span><span>90%</span></div>
+        <div style="background:#23395d; border-radius:6px; height:7px; margin-bottom:12px;"><div style="width:90%;height:100%;background:#2a7de1;border-radius:6px;"></div></div>
+        <div style="margin-bottom:10px; display:flex; justify-content:space-between;"><span>Tailwind CSS</span><span>85%</span></div>
+        <div style="background:#23395d; border-radius:6px; height:7px; margin-bottom:12px;"><div style="width:85%;height:100%;background:#2a7de1;border-radius:6px;"></div></div>
+        <div style="margin-bottom:10px; display:flex; justify-content:space-between;"><span>Three.js</span><span>80%</span></div>
+        <div style="background:#23395d; border-radius:6px; height:7px; margin-bottom:12px;"><div style="width:80%;height:100%;background:#2a7de1;border-radius:6px;"></div></div>
+        <div style="margin-bottom:10px; display:flex; justify-content:space-between;"><span>Vite / Parcel</span><span>75%</span></div>
+        <div style="background:#23395d; border-radius:6px; height:7px;"><div style="width:75%;height:100%;background:#2a7de1;border-radius:6px;"></div></div>
+      </div>
+      <!-- Backend -->
+      <div style="background:#162447; border-radius:16px; padding:32px 28px; min-width:260px; flex:1 1 260px; max-width:340px;">
+        <div style="font-size:1.3rem; font-weight:700; color:white; margin-bottom:18px; display:flex; align-items:center; gap:8px;">
+          🖥️ Backend
+        </div>
+        <div style="margin-bottom:10px; display:flex; justify-content:space-between;"><span>Node.js</span><span>85%</span></div>
+        <div style="background:#23395d; border-radius:6px; height:7px; margin-bottom:12px;"><div style="width:85%;height:100%;background:#2a7de1;border-radius:6px;"></div></div>
+        <div style="margin-bottom:10px; display:flex; justify-content:space-between;"><span>Express.js</span><span>80%</span></div>
+        <div style="background:#23395d; border-radius:6px; height:7px; margin-bottom:12px;"><div style="width:80%;height:100%;background:#2a7de1;border-radius:6px;"></div></div>
+        <div style="margin-bottom:10px; display:flex; justify-content:space-between;"><span>MongoDB</span><span>70%</span></div>
+        <div style="background:#23395d; border-radius:6px; height:7px; margin-bottom:12px;"><div style="width:70%;height:100%;background:#2a7de1;border-radius:6px;"></div></div>
+        <div style="margin-bottom:10px; display:flex; justify-content:space-between;"><span>PostgreSQL</span><span>60%</span></div>
+        <div style="background:#23395d; border-radius:6px; height:7px; margin-bottom:12px;"><div style="width:60%;height:100%;background:#2a7de1;border-radius:6px;"></div></div>
+        <div style="margin-bottom:10px; display:flex; justify-content:space-between;"><span>REST API Design</span><span>78%</span></div>
+        <div style="background:#23395d; border-radius:6px; height:7px;"><div style="width:78%;height:100%;background:#2a7de1;border-radius:6px;"></div></div>
+      </div>
+      <!-- Tools & Others -->
+      <div style="background:#162447; border-radius:16px; padding:32px 28px; min-width:260px; flex:1 1 260px; max-width:340px;">
+        <div style="font-size:1.3rem; font-weight:700; color:white; margin-bottom:18px; display:flex; align-items:center; gap:8px;">
+          🛠️ Tools & Others
+        </div>
+        <div style="margin-bottom:10px; display:flex; justify-content:space-between;"><span>Git/GitHub</span><span>90%</span></div>
+        <div style="background:#23395d; border-radius:6px; height:7px; margin-bottom:12px;"><div style="width:90%;height:100%;background:#2a7de1;border-radius:6px;"></div></div>
+        <div style="margin-bottom:10px; display:flex; justify-content:space-between;"><span>Render / Deploy</span><span>85%</span></div>
+        <div style="background:#23395d; border-radius:6px; height:7px; margin-bottom:12px;"><div style="width:85%;height:100%;background:#2a7de1;border-radius:6px;"></div></div>
+        <div style="margin-bottom:10px; display:flex; justify-content:space-between;"><span>Figma / Canva</span><span>70%</span></div>
+        <div style="background:#23395d; border-radius:6px; height:7px; margin-bottom:12px;"><div style="width:70%;height:100%;background:#2a7de1;border-radius:6px;"></div></div>
+        <div style="margin-bottom:10px; display:flex; justify-content:space-between;"><span>Netlify / Vercel</span><span>60%</span></div>
+        <div style="background:#23395d; border-radius:6px; height:7px; margin-bottom:12px;"><div style="width:60%;height:100%;background:#2a7de1;border-radius:6px;"></div></div>
+        <div style="margin-bottom:10px; display:flex; justify-content:space-between;"><span>VS Code</span><span>95%</span></div>
+        <div style="background:#23395d; border-radius:6px; height:7px; margin-bottom:12px;"><div style="width:95%;height:100%;background:#2a7de1;border-radius:6px;"></div></div>
+        <div style="margin-bottom:10px; display:flex; justify-content:space-between;"><span>UptimeRobot</span><span>60%</span></div>
+        <div style="background:#23395d; border-radius:6px; height:7px;"><div style="width:60%;height:100%;background:#2a7de1;border-radius:6px;"></div></div>
+      </div>
+    </div>
+  </section>
+  <script>
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+</script>
+  <!-- Contact/Footer Section -->
+  <footer id="contact-footer" style="background:#151c28; color:#c0c7d9; padding:48px 0 24px 0; margin-top:60px;">
+    <div style="max-width:1200px; margin:0 auto; display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-start; gap:40px; padding:0 32px;">
+      <div style="flex:1 1 320px; min-width:260px;">
+        <h2 style="color:white; font-size:1.5rem; font-weight:700; margin-bottom:12px;">Rohit Thapa</h2>
+        <p style="margin-bottom:18px;">Web Developer passionate about creating beautiful, functional web experiences.</p>
+        <div style="margin-bottom:10px;">
+          <span style="display:inline-block; min-width:90px; color:#fff; font-weight:600;">Email:</span> <a href="mailto:rt932000@gmail.com" style="color:#2a7de1; text-decoration:none;">rt932000@gmail.com</a>
+        </div>
+        <div style="margin-bottom:10px;">
+          <span style="display:inline-block; min-width:90px; color:#fff; font-weight:600;">Phone:</span> <a href="tel:8217848588" style="color:#2a7de1; text-decoration:none;">8217848588</a>
+        </div>
+        <div style="margin:18px 0 0 0; display:flex; gap:18px; align-items:center;">
+        <a href="https://www.facebook.com/share/1ZSK2ncrqk/?mibextid=wwXIfr" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;"><svg width="24" height="24" fill="#fff" viewBox="0 0 24 24"><path d="M18 2H15C12.7909 2 11 3.79086 11 6V9H8V13H11V22H15V13H18L19 9H15V6C15 5.44772 15.4477 5 16 5H19V2Z"/></svg></a>
+        <a href="https://www.instagram.com/yoursrohi/profilecard/?igsh=MWRmc3V0bXJyMGZtYg==" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;"><svg width="24" height="24" fill="#fff" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#fff" stroke-width="2" fill="none"/><circle cx="12" cy="12" r="5" fill="#fff"/><circle cx="17.5" cy="6.5" r="1.5" fill="#fff"/></svg></a>
+        <a href="http://linkedin.com/in/rohit-thapa-418170357" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;"><svg width="24" height="24" fill="#fff" viewBox="0 0 24 24"><path d="M16 8C17.1046 8 18 8.89543 18 10V18H15V10C15 9.44772 14.5523 9 14 9H10V18H7V9H6V6H7V5C7 3.89543 7.89543 3 9 3H15V6H16V8Z"/><rect x="4" y="9" width="3" height="9"/><circle cx="5.5" cy="5.5" r="1.5"/></svg></a>
+        <a href="https://github.com/NOTY69" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;"><svg width="24" height="24" fill="#fff" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12C2 16.42 5.06 20.06 9.26 21.18C9.76 21.27 9.92 20.98 9.92 20.74C9.92 20.53 9.91 19.91 9.91 19.13C7 19.78 6.34 17.97 6.34 17.97C5.86 16.81 5.18 16.5 5.18 16.5C4.21 15.88 5.25 15.9 5.25 15.9C6.32 15.98 6.85 17.01 6.85 17.01C7.81 18.66 9.36 18.19 10.01 17.93C10.11 17.25 10.38 16.77 10.68 16.5C8.47 16.23 6.15 15.34 6.15 11.5C6.15 10.39 6.57 9.5 7.25 8.77C7.14 8.5 6.77 7.3 7.34 5.73C7.34 5.73 8.18 5.44 9.91 6.59C10.7 6.36 11.55 6.25 12.4 6.25C13.25 6.25 14.1 6.36 14.89 6.59C16.62 5.44 17.46 5.73 17.46 5.73C18.03 7.3 17.66 8.5 17.55 8.77C18.23 9.5 18.65 10.39 18.65 11.5C18.65 15.35 16.32 16.23 14.11 16.5C14.5 16.84 14.85 17.5 14.85 18.44C14.85 19.78 14.84 20.5 14.84 20.74C14.84 20.98 15 21.28 15.51 21.18C19.71 20.06 22.77 16.42 22.77 12C22.77 6.48 18.29 2 12 2Z"/></svg></a>
+      </div>
+    </div>
+    <div style="text-align:center; color:#7a8599; margin-top:40px; font-size:0.95rem; border-top:1px solid #232b3a; padding-top:18px;">
+      © 2024 Rohit Thapa. All rights reserved.
+    </div>
+  </footer>
+</body>
+</html>
